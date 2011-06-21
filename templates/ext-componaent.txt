@@ -1,0 +1,9 @@
+#foreach($item in $values)
+    var $FMT.xyzAbc(${item.get("c0")})= {
+        fieldLabel: '$FMT.echo('${')lb$FMT.XyzAbc(${item.get("c0")})$FMT.echo('}')',
+        value: '$FMT.echo('$!{')$FMT.xyzAbc(${item.get("c0")})$FMT.echo('}')',
+        id: '$FMT.xyzAbc(${item.get("c0")})',
+        name: '$FMT.xyzAbc(${item.get("c0")})',
+        hold: false
+    };
+#end

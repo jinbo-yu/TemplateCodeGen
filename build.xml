@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="template" basedir="." default="usage">
+    <property file="build.properties"/>
+
+    <property name="app_name" value="template-code"/>
+    <property name="root.dir" value=""/>
+    <property name="src.dir" value="src"/>
+    <property name="lib.dir" value="lib"/>
+    <property name="target.dir" value="target"/>
+    <property name="build.dir" value="${target.dir}/classes"/>
+    <property name="deploy.dir" value="deploy"/>
+
+    <path id="project.classpath">
+        <fileset dir="${lib.dir}">
+            <include name="**/*.jar"/>
+            <include name="**/*.zip"/>
+        </fileset>
+    </path>
+
+    <target name="usage">
+        <echo message=""/>
+        <echo message="${app_name} build file"/>
+        <echo message="-----------------------------------"/>
+        <echo message=""/>
+        <echo message="Available targets are:"/>
+        <echo message=""/>
+        <echo message="clean     --> Clean the application"/>
+        <echo message="build     --> Build the application"/>
+        <echo message=""/>
+    </target>
+
+    <target name="clean" description="Clean the application">
+        <delete dir="${target.dir}"/>
+        <delete dir="${deploy.dir}"/>
+    </target>
+
+    <target name="build" description="Compile main source tree java files">
+        <mkdir dir="${build.dir}"/>
+        <javac destdir="${build.dir}" target="1.5" debug="on" deprecation="false" optimize="false"
+         failonerror="true" listfiles="yes">
+            <src path="${src.dir}"/>
+            <classpath refid="project.classpath"/>
+        </javac>
+        <mkdir dir="${deploy.dir}"/>
+        <jar destfile="${deploy.dir}/${app_name}.jar" basedir="${build.dir}" manifest="resource/Manifest.mf">
+        </jar>
+        <copy todir="${deploy.dir}">
+            <fileset dir="${root.dir}">
+                <exclude name="**/.svn/**"/>
+                <include name="lib/**"/>
+                <include name="templates/**"/>
+            </fileset>
+            <resources>
+                <file file="resource/readme.txt"/>
+            </resources>
+        </copy>
+		<copy file="resource/readme.txt" todir="${deploy.dir}"/>
+    </target>
+</project>

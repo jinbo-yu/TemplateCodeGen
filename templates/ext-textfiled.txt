@@ -1,0 +1,14 @@
+#foreach($item in $values)
+    var $FMT.xyzAbc(${item.get("c0")}) = {
+        xtype: 'textfield',
+        fieldLabel: '$FMT.echo('$!{')lb$FMT.XyzAbc(${item.get("c0")})$FMT.echo('}')',
+        allowBlank: true,
+        value: '$FMT.echo('$!{')item.$FMT.xyzAbc(${item.get("c0")})$FMT.echo('}')',
+        maxLength: 32,
+        id: '$FMT.xyzAbc(${item.get("c0")})',
+        hideLabel: false,
+        name: '$FMT.xyzAbc(${item.get("c0")})',
+        border: false,
+        hold: false
+    };
+#end    

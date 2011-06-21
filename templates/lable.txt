@@ -1,0 +1,13 @@
+#foreach($item in $values)
+,$FMT.xyzAbc(${item.get("c0")})
+#end
+
+
+#foreach($item in $values)
+,'$FMT.xyzAbc(${item.get("c0")})'
+#end
+
+
+#foreach($item in $values)
+$FMT.echo('#')set($FMT.echo('$')lb$FMT.XyzAbc(${item.get("c0")})="")
+#end

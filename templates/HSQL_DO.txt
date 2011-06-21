@@ -1,0 +1,21 @@
+#macro(getType $fieldType)
+#if(${fieldType.startsWith("int")})
+#set($JAVA_TYPE="Integer")
+#elseif(${fieldType.startsWith("varchar")} || ${fieldType.startsWith("char")})
+#set($JAVA_TYPE="String")
+#elseif(${fieldType.startsWith("date")})
+#set($JAVA_TYPE="Date")
+#else
+#set($JAVA_TYPE="***")
+#end
+#end
+
+public class $FMT.XyzAbc(${table}) $FMT.echo('{')
+#foreach($item in $values)
+#if(${item.get("c0").toLowerCase()}!="id")
+#set($type=${item.get("c1").toLowerCase()})
+#getType(${type})
+	protected ${JAVA_TYPE} $FMT.xyzAbc(${item.get("c0")});
+#end
+#end
+$FMT.echo('}')

@@ -1,0 +1,7 @@
+#foreach($item in $values)
+        $FMT.echo('},{')
+            header: '$FMT.echo('${')lb$FMT.XyzAbc(${item.get("c0")})$FMT.echo('}')',
+            width: 80,
+            sortable: true,
+            dataIndex: '$FMT.xyzAbc(${item.get("c0")})'
+#end

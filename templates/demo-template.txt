@@ -1,0 +1,3 @@
+#foreach($item in $values)
+${item.get("c0")} ${item.get("c1")}  ${FMT.XYZ_ABC(${item.get("c1")})} ${FMT.xyz_abc(${item.get("c1")})} ${FMT.Xyz_Abc(${item.get("c1")})} ${FMT.XyzAbc(${item.get("c1")})} ${FMT.xyzAbc(${item.get("c1")})} ${FMT.xyzabc(${item.get("c1")})} ${FMT.XYZABC(${item.get("c1")})}
+#end

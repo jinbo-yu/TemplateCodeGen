@@ -1,0 +1,13 @@
+create table demo
+(
+	id int PRIMARY KEY,
+	suite_name varchar(256),
+	proposition_name varchar(256),
+	user_id int not null,
+	user_name varchar(32),
+	gmt_answer_start DATETIME,
+	gmt_answer_commit DATETIME,
+	status varchar(16),
+	runtime int,
+	review_score int
+);

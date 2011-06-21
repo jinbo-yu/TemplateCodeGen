@@ -1,0 +1,76 @@
+#macro(getType $fieldType)
+#if(${fieldType.startsWith("int")})
+#set($JAVA_TYPE="Integer")
+#set($JDBC_TYPE="NUMERIC")
+#elseif(${fieldType.startsWith("varchar")} || ${fieldType.startsWith("char")})
+#set($JAVA_TYPE="String")
+#set($JDBC_TYPE="VARCHAR")
+#elseif(${fieldType.startsWith("date")})
+#set($JAVA_TYPE="java.util.Date")
+#set($JDBC_TYPE="TIMESTAMP")
+#else
+#set($JAVA_TYPE="***")
+#set($JDBC_TYPE="***")
+#end
+#end
+	<typeAlias alias="$FMT.XyzAbc(${table})" type="***.$FMT.XyzAbc(${table})"/>
+	<resultMap id="$FMT.XyzAbc(${table})_RM" class="$FMT.XyzAbc(${table})">
+#foreach($item in $values)
+#set($type=${item.get("c1").toLowerCase()})
+#getType(${type})
+		<result property="$FMT.xyzAbc(${item.get('c0')})" column="$FMT.XYZ_ABC(${item.get('c0')})"  jdbcType="${JDBC_TYPE}" javaType="${JAVA_TYPE}"/>
+#end
+	</resultMap>
+	
+	<sql id="COMMON_CONDITION">
+#foreach($item in $values)
+#if(${item.get("c0").toLowerCase()}!="id")
+#getType(${type})
+		<isNotEmpty property="$FMT.xyzAbc(${item.get("c0")})" prepend="and">
+			$FMT.XYZ_ABC(${item.get("c0")}) = #$FMT.xyzAbc(${item.get("c0")}):${JDBC_TYPE}#
+		</isNotEmpty>
+#end		
+#end
+	</sql>
+
+	<select id="SELECT" resultMap="$FMT.XyzAbc(${table})_RM">
+		SELECT * FROM $FMT.XYZ_ABC(${table}) WHERE ID=#id:NUMBERIC#
+	</select>
+
+	<insert id="INSERT" parameterClass="$FMT.XyzAbc(${table})">
+		<selectKey keyProperty="id" resultClass="int">
+			call NEXT VALUE FOR SEQ_$FMT.XYZ_ABC(${table})
+		</selectKey>
+        insert into $FMT.XYZ_ABC(${table}) (
+        	ID
+#set($first=true)
+#foreach($item in $values)
+#if(${item.get("c0").toLowerCase()}!="id")
+		,$FMT.XYZ_ABC(${item.get("c0")})
+#end
+#set($first=false)
+#end
+		) values (
+#set($first=true)
+#foreach($item in $values)
+#set($type=${item.get("c1").toLowerCase()})
+#getType(${type})
+		#if(!${first}),#end ${FMT.echo("#")}$FMT.xyzAbc(${item.get("c0")}):${JDBC_TYPE}${FMT.echo("#")}
+#set($first=false)
+#end
+		)
+	</insert>
+    
+	<update id="UPDATE" parameterClass="$FMT.XyzAbc(${table})">
+		update $FMT.XYZ_ABC(${table}) set
+#set($first=true)
+#foreach($item in $values)
+#if(${item.get("c0").toLowerCase()}!="id")
+#set($type=${item.get("c1").toLowerCase()})
+#getType(${type})
+		#if(!${first}),#end $FMT.XYZ_ABC(${item.get("c0")})=${FMT.echo("#")}$FMT.xyzAbc(${item.get("c0")}):${JDBC_TYPE}${FMT.echo("#")}
+#set($first=false)
+#end
+#end
+		where id=#id:NUMERIC#
+	</update>
